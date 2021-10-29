@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>Stickers</h1>
+<th:block th:each="sticker : ${stickers}">
+  <div>
+    <span th:text="${sticker.id}"></span>
+    <span th:text="${sticker.title}"></span>
+  </div>
+</th:block>
+<h1>Emojis</h1>
+<th:block th:each="emoji : ${emojis}">
+  <div>
+    <span th:text="${emoji.id}"></span>
+    <span th:text="${emoji.title}"></span>
+  </div>
+</th:block>
+<h1>Games</h1>
+<th:block th:each="game : ${games}">
+  <div>
+    <span th:text="${game.id}"></span>
+    <span th:text="${game.title}"></span>
+  </div>
+</th:block>
+</body>
+</html>

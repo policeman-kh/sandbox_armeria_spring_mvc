@@ -1,0 +1,21 @@
+archivesBaseName = 'frondend-web'
+
+dependencies {
+    implementation project(':common')
+    implementation 'com.linecorp.armeria:armeria'
+    implementation 'com.linecorp.armeria:armeria-tomcat9'
+    implementation 'com.linecorp.armeria:armeria-retrofit2'
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-actuator-autoconfigure'
+    implementation 'com.linecorp.armeria:armeria-rxjava3'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'com.google.guava:guava'
+    implementation 'com.squareup.retrofit2:converter-jackson'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3'
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+}

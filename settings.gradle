@@ -1,0 +1,6 @@
+rootProject.name = 'armeria_spring_mvc'
+include 'backend-api'
+include 'frontend-web'
+include 'common'
+
+
