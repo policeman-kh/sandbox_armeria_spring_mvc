@@ -12,9 +12,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import com.linecorp.armeria.server.brave.BraveService;
 import com.linecorp.armeria.server.tomcat.TomcatService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
 
+import brave.Tracing;
+import brave.http.HttpTracing;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
 
@@ -27,8 +30,10 @@ public class TomcatConfiguration {
 
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator(TomcatService tomcatService,
-                                                               MeterRegistry meterRegistry) {
+                                                               MeterRegistry meterRegistry,
+                                                               Tracing tracing) {
         return sb -> sb.service("prefix:/", tomcatService)
+                       .decorator(BraveService.newDecorator(HttpTracing.create(tracing)))
                        .blockingTaskExecutor(newScheduledThreadPool(
                                32, meterRegistry, "armeria-blocking-executor"), false);
     }

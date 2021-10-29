@@ -6,10 +6,12 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
     implementation 'com.linecorp.armeria:armeria-spring-boot2-actuator-autoconfigure'
     implementation 'com.linecorp.armeria:armeria-rxjava3'
+    implementation 'com.linecorp.armeria:armeria-brave'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.google.guava:guava'
+    implementation 'io.zipkin.reporter2:zipkin-sender-okhttp3'
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")

@@ -8,6 +8,7 @@ dependencies {
     implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
     implementation 'com.linecorp.armeria:armeria-spring-boot2-actuator-autoconfigure'
     implementation 'com.linecorp.armeria:armeria-rxjava3'
+    implementation 'com.linecorp.armeria:armeria-brave'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -16,6 +17,7 @@ dependencies {
     implementation 'com.google.guava:guava'
     implementation 'com.squareup.retrofit2:converter-jackson'
     implementation 'com.squareup.retrofit2:adapter-rxjava3'
+    implementation 'io.zipkin.reporter2:zipkin-sender-okhttp3'
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 }

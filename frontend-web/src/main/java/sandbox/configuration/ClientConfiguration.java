@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.linecorp.armeria.client.Endpoint;
 import com.linecorp.armeria.client.HttpClient;
+import com.linecorp.armeria.client.brave.BraveClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreaker;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerListener;
@@ -22,7 +23,10 @@ import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofit;
 import com.linecorp.armeria.common.SessionProtocol;
 import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.common.logging.RequestLogProperty;
+import com.linecorp.armeria.server.brave.BraveService;
 
+import brave.Tracing;
+import brave.http.HttpTracing;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
@@ -42,22 +46,25 @@ public class ClientConfiguration {
 
     @ForSimpleClient
     @Bean
-    public BackendApiClient backendApiClient(MeterRegistry meterRegistry) {
+    public BackendApiClient backendApiClient(MeterRegistry meterRegistry, HttpTracing tracing) {
         return ArmeriaRetrofit.builder("http://localhost:8081/")
                               .addConverterFactory(JacksonConverterFactory.create())
                               .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                               .decorator(circuitBreakerDecorator(meterRegistry))
                               .decorator(loggingClientDecorator())
+                              .decorator(BraveClient.newDecorator(tracing.clientOf("backend-api")))
                               .build()
                               .create(BackendApiClient.class);
     }
 
     @ForLoadBalancingClient
     @Bean
-    public BackendApiClient loadBalancingClient(MeterRegistry meterRegistry) {
+    public BackendApiClient loadBalancingClient(MeterRegistry meterRegistry, HttpTracing tracing) {
         final EndpointGroup endpointGroup = EndpointGroup.of(
                 Endpoint.of("localhost", 8081),
                 Endpoint.of("localhost", 8082));
+
+
         final HealthCheckedEndpointGroup healthCheckedGroup =
                 HealthCheckedEndpointGroup.builder(endpointGroup, "/internal/l7check")
                                           .protocol(SessionProtocol.HTTP)
@@ -68,6 +75,7 @@ public class ClientConfiguration {
                               .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                               .decorator(circuitBreakerDecorator(meterRegistry))
                               .decorator(loggingClientDecorator())
+                              .decorator(BraveClient.newDecorator(tracing.clientOf("backend-web")))
                               .build()
                               .create(BackendApiClient.class);
     }

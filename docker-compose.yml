@@ -12,3 +12,11 @@ services:
       - 3000:3000
     env_file:
       - ./grafana.env
+  centraldogma:
+    image: line/centraldogma
+    ports:
+      - 36462:36462
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411

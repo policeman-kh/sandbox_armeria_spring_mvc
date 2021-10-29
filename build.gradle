@@ -41,6 +41,7 @@ subprojects {
 				entry 'armeria-spring-boot2-starter'
 				entry 'armeria-spring-boot2-actuator-autoconfigure'
 				entry 'armeria-rxjava3'
+				entry 'armeria-brave'
 			}
 			dependency "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 			dependency "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
@@ -49,6 +50,7 @@ subprojects {
 			dependency 'com.google.guava:guava:31.0.1-jre'
 			dependency 'com.squareup.retrofit2:converter-jackson:2.9.0'
 			dependency 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+			dependency 'io.zipkin.reporter2:zipkin-sender-okhttp3:2.16.3'
 			dependency 'org.projectlombok:lombok:1.18.22'
 		}
 	}
