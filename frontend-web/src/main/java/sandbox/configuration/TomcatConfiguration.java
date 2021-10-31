@@ -31,9 +31,9 @@ public class TomcatConfiguration {
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator(TomcatService tomcatService,
                                                                MeterRegistry meterRegistry,
-                                                               Tracing tracing) {
+                                                               HttpTracing tracing) {
         return sb -> sb.service("prefix:/", tomcatService)
-                       .decorator(BraveService.newDecorator(HttpTracing.create(tracing)))
+                       .decorator(BraveService.newDecorator(tracing))
                        .blockingTaskExecutor(newScheduledThreadPool(
                                32, meterRegistry, "armeria-blocking-executor"), false);
     }

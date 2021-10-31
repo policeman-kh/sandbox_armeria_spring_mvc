@@ -9,23 +9,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.linecorp.armeria.client.Endpoint;
 import com.linecorp.armeria.client.HttpClient;
 import com.linecorp.armeria.client.brave.BraveClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreaker;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerClient;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerListener;
 import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerRule;
-import com.linecorp.armeria.client.endpoint.EndpointGroup;
+import com.linecorp.armeria.client.endpoint.DynamicEndpointGroup;
 import com.linecorp.armeria.client.endpoint.healthcheck.HealthCheckedEndpointGroup;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.client.retrofit2.ArmeriaRetrofit;
 import com.linecorp.armeria.common.SessionProtocol;
 import com.linecorp.armeria.common.logging.LogLevel;
-import com.linecorp.armeria.common.logging.RequestLogProperty;
-import com.linecorp.armeria.server.brave.BraveService;
 
-import brave.Tracing;
 import brave.http.HttpTracing;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -59,12 +55,13 @@ public class ClientConfiguration {
 
     @ForLoadBalancingClient
     @Bean
-    public BackendApiClient loadBalancingClient(MeterRegistry meterRegistry, HttpTracing tracing) {
+    public BackendApiClient loadBalancingClient(DynamicEndpointGroup endpointGroup,
+                                                MeterRegistry meterRegistry, HttpTracing tracing) {
+        /*
         final EndpointGroup endpointGroup = EndpointGroup.of(
                 Endpoint.of("localhost", 8081),
                 Endpoint.of("localhost", 8082));
-
-
+        */
         final HealthCheckedEndpointGroup healthCheckedGroup =
                 HealthCheckedEndpointGroup.builder(endpointGroup, "/internal/l7check")
                                           .protocol(SessionProtocol.HTTP)
@@ -80,7 +77,7 @@ public class ClientConfiguration {
                               .create(BackendApiClient.class);
     }
 
-    private static Function<? super HttpClient, LoggingClient> loggingClientDecorator(){
+    private static Function<? super HttpClient, LoggingClient> loggingClientDecorator() {
         return LoggingClient.builder().logger(log).requestLogLevel(LogLevel.INFO).newDecorator();
     }
 

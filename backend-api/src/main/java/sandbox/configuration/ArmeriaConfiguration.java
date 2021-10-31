@@ -23,12 +23,12 @@ public class ArmeriaConfiguration {
 
     @Bean
     public ArmeriaServerConfigurator ApiServiceBean(BackendApiService service, ObjectMapper objectMapper,
-                                                    Tracing tracing) {
+                                                    HttpTracing tracing) {
         return serverBuilder -> serverBuilder
                 .annotatedService()
                 .defaultServiceNaming(ServiceNaming.simpleTypeName())
                 .responseConverters(new JsonResponseConverter(objectMapper))
-                .decorator(BraveService.newDecorator(HttpTracing.create(tracing)))
+                .decorator(BraveService.newDecorator(tracing))
                 .build(service);
     }
 }

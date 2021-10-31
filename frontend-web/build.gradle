@@ -18,6 +18,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-jackson'
     implementation 'com.squareup.retrofit2:adapter-rxjava3'
     implementation 'io.zipkin.reporter2:zipkin-sender-okhttp3'
+    implementation 'com.linecorp.centraldogma:centraldogma-client-spring-boot-starter'
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 }

@@ -11,3 +11,7 @@ armeria:
   ports:
     - port: 8080
       protocol: HTTP
+
+centraldogma:
+  hosts:
+    - localhost:36462

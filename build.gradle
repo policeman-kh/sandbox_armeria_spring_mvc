@@ -51,6 +51,7 @@ subprojects {
 			dependency 'com.squareup.retrofit2:converter-jackson:2.9.0'
 			dependency 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
 			dependency 'io.zipkin.reporter2:zipkin-sender-okhttp3:2.16.3'
+			dependency 'com.linecorp.centraldogma:centraldogma-client-spring-boot-starter:0.52.2'
 			dependency 'org.projectlombok:lombok:1.18.22'
 		}
 	}
