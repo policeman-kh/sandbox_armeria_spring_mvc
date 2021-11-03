@@ -2,8 +2,4 @@ armeria:
   ports:
     - port: 8081
       protocol: HTTP
-    - port: 8082
-      protocol: HTTP
-    - port: 8083
-      protocol: HTTP
   health-check-path: /internal/l7check
